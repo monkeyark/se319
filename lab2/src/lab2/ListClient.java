@@ -8,20 +8,24 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-public class ListClient {
-
+public class ListClient
+{
 	Socket serverSocket;
 	String serverHostName = "localhost";
 	int serverPortNumber = 4444;
 	ServerListener sl;
 
-	ListClient() {
+	ListClient()
+	{
 		// 1. CONNECT TO THE SERVER
-		try {
+		try
+		{
 			serverSocket = new Socket(serverHostName, serverPortNumber);
-		} catch (UnknownHostException e) {
+		} catch (UnknownHostException e)
+		{
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 
@@ -31,28 +35,29 @@ public class ListClient {
 		new Thread(sl).start();
 
 		PrintWriter out;
-		try {
+		try
+		{
 			out = new PrintWriter(new BufferedOutputStream(serverSocket.getOutputStream()));
-			
+
 			// 3. SEND THREE WISHES TO SERVER
-			out.println("wish 1:  one million bucks "); 			
+			out.println("wish 1:  one million bucks ");
 			out.flush(); // force the output
 			out.println("wish 2: uh oh! ");
 			out.flush(); // force the output
 			out.println("wish 3: get rid of the bucks ");
 			out.flush(); // force the output
-				
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
+		} catch (IOException e)
+		{
 			e.printStackTrace();
 		}
-		
-
 
 	}
 
-	public void handleMessage(String cmd, String s) {
-		switch (cmd) {
+	public void handleMessage(String cmd, String s)
+	{
+		switch (cmd)
+		{
 		case "print":
 			System.out.println("client side: " + s);
 			break;
@@ -64,28 +69,35 @@ public class ListClient {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		ListClient lc = new ListClient();
 	} // end of main method
 
 } // end of ListClient
 
-class ServerListener implements Runnable {
+class ServerListener implements Runnable
+{
 	ListClient lc;
 	Scanner in; // this is used to read which is a blocking call
 
-	ServerListener(ListClient lc, Socket s) {
-		try {
+	ServerListener(ListClient lc, Socket s)
+	{
+		try
+		{
 			this.lc = lc;
 			in = new Scanner(new BufferedInputStream(s.getInputStream()));
-		} catch (IOException e) {
+		} catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void run() {
-		while (true) { // run forever
+	public void run()
+	{
+		while (true) // run forever
+		{
 			System.out.println("Client - waiting to read");
 			String cmd = in.next();
 			String s = in.nextLine();
