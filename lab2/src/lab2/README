@@ -1,6 +1,4 @@
-README.txt
 -----------------------------------------------------------------
-
 First run MyServer.java 
 Then, you can run several MyClient.java programs and see what happens.
 This is a very basic example of server client.
