@@ -23,9 +23,7 @@ public class MyCLient
 		out.print("Client socket Local Address: " + socket.getLocalAddress() + ":" + socket.getLocalPort());
 		out.println("  Client socket Remote Address: " + socket.getRemoteSocketAddress());
 		out.flush(); // forces data from buffer to be sent to server
-
 		// client dies here
-
 	}
 
 	static void printSocketInfo(Socket s)

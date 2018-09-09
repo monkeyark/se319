@@ -44,7 +44,7 @@ public class ListServer
 			{
 				// 2.1 WAIT FOR CLIENT TO TRY TO CONNECT TO SERVER
 				System.out.println("Waiting for client " + (clientNum + 1) + " to connect!");
-				clientSocket = serverSocket.accept(); // // 4.
+				clientSocket = serverSocket.accept();
 
 				// 2.2 SPAWN A THREAD TO HANDLE CLIENT REQUEST
 				System.out.println("Server got connected to a client" + ++clientNum);
@@ -56,15 +56,11 @@ public class ListServer
 				System.out.println("Accept failed: 4444");
 				System.exit(-1);
 			}
-
 			// 2.3 GO BACK TO WAITING FOR OTHER CLIENTS
 			// (While the thread that was created handles the connected client's request)
-
-		} // end while loop
-
-	} // end of main method
-
-} // end of class MyServer
+		}
+	}
+}
 
 class ListClientHandler implements Runnable
 {
@@ -112,13 +108,12 @@ class ListClientHandler implements Runnable
 		{
 			e.printStackTrace();
 		}
-
 		// This handling code dies after doing all the printing
-	} // end of method run()
+	}
 
 	void handleRequest(String s)
 	{
 		System.out.println("server side: " + s);
 	}
 
-} // end of class ClientHandler
+}

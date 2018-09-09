@@ -54,15 +54,11 @@ public class MyServer
 				System.out.println("Accept failed: 4444");
 				System.exit(-1);
 			}
-
 			// 2.3 GO BACK TO WAITING FOR OTHER CLIENTS
 			// (While the thread that was created handles the connected client's request)
-
-		} // end while loop
-
-	} // end of main method
-
-} // end of class MyServer
+		}
+	}
+}
 
 class ClientHandler implements Runnable
 {
@@ -94,15 +90,13 @@ class ClientHandler implements Runnable
 		{
 			e.printStackTrace();
 		}
-
 		// This handling code dies after doing all the printing
-	} // end of method run()
+	}
 
 	void printSocketInfo(Socket s)
 	{
 		System.out.print("Socket on Server " + Thread.currentThread() + " ");
 		System.out.print("Server socket Local Address: " + s.getLocalAddress() + ":" + s.getLocalPort());
 		System.out.println("  Server socket Remote Address: " + s.getRemoteSocketAddress());
-	} // end of printSocketInfo
-
-} // end of class ClientHandler
+	}
+}

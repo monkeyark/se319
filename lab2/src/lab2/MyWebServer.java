@@ -42,7 +42,7 @@ public class MyWebServer
 		}
 	}
 
-} // end of class
+}
 
 class WebClient implements Runnable
 {
@@ -93,4 +93,4 @@ class WebClient implements Runnable
 		 s.getLocalPort());
 		 System.out.println(" Remote Address: " + s.getRemoteSocketAddress());
 	}
-} // end of class
+}

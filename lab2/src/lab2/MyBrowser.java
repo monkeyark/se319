@@ -59,9 +59,7 @@ public class MyBrowser
 				System.out.println(msg);
 			}
 			in.close();
-
 		}
-
 	}
 
 	static JTextArea textArea = new JTextArea();
