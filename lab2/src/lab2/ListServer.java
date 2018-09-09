@@ -28,8 +28,7 @@ public class ListServer
 		// 1. CREATE A NEW SERVERSOCKET
 		try
 		{
-			serverSocket = new ServerSocket(4444); // provide MYSERVICE at port
-													// 4444
+			serverSocket = new ServerSocket(4444); // provide MYSERVICE at port 4444
 			System.out.println(serverSocket);
 		} catch (IOException e)
 		{
@@ -59,8 +58,7 @@ public class ListServer
 			}
 
 			// 2.3 GO BACK TO WAITING FOR OTHER CLIENTS
-			// (While the thread that was created handles the connected client's
-			// request)
+			// (While the thread that was created handles the connected client's request)
 
 		} // end while loop
 
