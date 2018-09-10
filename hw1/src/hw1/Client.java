@@ -1,35 +1,33 @@
 package hw1;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.Scanner;
 
 
 public class Client
 {
-	Socket serverSocket;
-	String serverHostName = "localhost";
-	int serverPortNumber = 4444;
-	ServerListener sl;
-
-	Client()
+	public Client()
 	{
 		try
 		{
-			serverSocket = new Socket(serverHostName, serverPortNumber);
+			Socket serverSocket = new Socket("localhost", 4040);
 			
-			sl = new ServerListener(this, serverSocket);
-			new Thread(sl).start();
-			PrintWriter out;
+			DataOutputStream outStream = new DataOutputStream(serverSocket.getOutputStream());
+			BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
 			
-			out = new PrintWriter(new BufferedOutputStream(serverSocket.getOutputStream()));
+			ClientIO cio = new ClientIO(serverSocket);
+			new Thread(cio).start();
 			
-			
-			out.println("This is message from client");
-			out.flush();
+			while(true)
+			{
+				String output = read.readLine();
+				outStream.writeUTF(output);
+				outStream.flush();
+			}
 			
 		} catch (IOException e)
 		{
@@ -37,39 +35,23 @@ public class Client
 		}
 	}
 
-	public void handleMessage(String cmd, String s)
-	{
-		switch (cmd)
-		{
-		case "print":
-			System.out.println("client side: " + s);
-			break;
-		case "exit":
-			System.exit(-1);
-			break;
-		default:
-			System.out.println("client side: unknown command received:" + cmd);
-		}
-	}
-
 	public static void main(String[] args)
 	{
-		Client client = new Client();
+		new Client();
 	}
 }
 
-
-class ServerListener implements Runnable
+class ClientIO implements Runnable
 {
 	Client c;
-	Scanner in; // this is used to read which is a blocking call
+	Socket socket;
+	DataInputStream input;
 
-	ServerListener(Client c, Socket s)
+	public ClientIO(Socket s)
 	{
 		try
 		{
-			this.c = c;
-			in = new Scanner(new BufferedInputStream(s.getInputStream()));
+			input = new DataInputStream(s.getInputStream());
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -81,10 +63,16 @@ class ServerListener implements Runnable
 	{
 		while (true)
 		{
-			System.out.println("Client - waiting to read");
-			String cmd = in.next();
-			String s = in.nextLine();
-			c.handleMessage(cmd, s);
+			String str = null;
+			try
+			{
+				str = input.readUTF();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			if(!str.equals(null))
+				System.out.println(str);
 		}
 	}
 }
