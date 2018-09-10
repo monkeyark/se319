@@ -81,11 +81,11 @@ class ClientHandler implements Runnable
 		{
 			// 1. USE THE SOCKET TO READ WHAT THE CLIENT IS SENDING
 			in = new Scanner(new BufferedInputStream(s.getInputStream()));
-			String clientMessage = in.nextLine();
-
+			String clientMessage;
+			clientMessage = in.nextLine();
+			
 			// 2. PRINT WHAT THE CLIENT SENT
 			System.out.println("Message from Client" + num + ":" + clientMessage);
-
 		} catch (IOException e)
 		{
 			e.printStackTrace();
