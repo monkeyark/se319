@@ -1,0 +1,7 @@
+Server.java and Client.java are the server and client side of the chatroom.
+
+Run Server.java for once. One server will be able to connect multiple clients.
+
+Run Client.java to connect the Server. Client.java can be run many times.
+Each run will create a new client that connects to the server.
+Input a username to join the chat room. Input message in client window to chat with other clients.
