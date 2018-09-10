@@ -1,6 +1,5 @@
 package hw1;
 
-
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -11,17 +10,18 @@ import java.io.IOException;
 
 public class Server
 {
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args)
 	{
 		ServerSocket serverSocket = null;
 		int clientNum = 0;
 		
 		try
 		{
-			serverSocket = new ServerSocket(5555);
+			serverSocket = new ServerSocket(4444);
+			System.out.println(serverSocket);
 		} catch (IOException e)
 		{
-			System.out.println("Could not listen on port: 5555");
+			System.out.println("Could not listen on port: 4444");
 			System.exit(-1);
 		}	
 		
@@ -31,13 +31,15 @@ public class Server
 			
 			try
 			{
+				System.out.println("Waiting for client " + clientNum++ + " to connect!");
 				clientSocket = serverSocket.accept();
 				
-				ClientIO c = new ClientIO(clientSocket, clientNum++);
+				System.out.println("Server got connected to a client" + clientNum);
+				ClientIO c = new ClientIO(clientSocket, clientNum);
 				Thread t = new Thread(c);
 				t.start();
 				
-			} catch (Exception e)
+			} catch (IOException e)
 			{
 				System.out.println("SERVER SIDE: clientSocket excpetion");
 				System.exit(-1);
@@ -49,12 +51,12 @@ public class Server
 class ClientIO implements Runnable
 {
 	Socket s;
-	int num;
+	int n;
 	
-	ClientIO(Socket s, int num)
+	ClientIO(Socket socket, int num)
 	{
-		this.s = s;
-		this.num = num;
+		s = socket;
+		n = num;
 	}
 	
 	@Override
@@ -70,16 +72,29 @@ class ClientIO implements Runnable
 			in = new Scanner(input);
 			out = new PrintWriter(output);
 			
-			out.println("You are client " + num);
+			out.println("You are client " + n);
 			out.flush();
 			
-			//handle the inputStream and send the input to another client
+			//TODO handle the inputStream and send the input to another client
+			
+//			int count = 1;
+//			while (count <= 3)
+//			{
+//				System.out.println("Server - waiting to read");
+//				String s = in.nextLine();
+//				System.out.println("server side: " + s);
+//				count++;
+//			}
+//			out.println("exit done with wishes");
+//			out.flush();
+			
+			
+//			String mess = in.nextLine();
+//			System.out.println(mess);
 			
 		} catch (IOException e)
 		{
 			System.out.println("SERVER SIDE: ClientIO Exception");
 		}
-		
-		
 	}
 }
