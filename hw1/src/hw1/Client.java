@@ -17,6 +17,8 @@ public class Client
 			Socket serverSocket = new Socket("localhost", 4040);
 			
 			DataOutputStream outStream = new DataOutputStream(serverSocket.getOutputStream());
+			System.out.print("Enter Username:  ");
+			
 			BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
 			
 			ClientIO c_io = new ClientIO(serverSocket);
@@ -33,6 +35,7 @@ public class Client
 		} catch (IOException e)
 		{
 			e.printStackTrace();
+			System.out.println("Client SIDE: Client Exception");
 		}
 	}
 
@@ -60,17 +63,18 @@ class ClientIO implements Runnable
 			input = new DataInputStream(socket.getInputStream());
 			while (true)
 			{
-				String str = null;
-				str = input.readUTF();
+				String inStr = null;
+				inStr = input.readUTF();
 				
-				if(!str.equals(null))
+				if(!inStr.equals(null) && !inStr.equals(""))
 				{
-					System.out.println(str);
+					System.out.println(inStr);
 				}
 			}
 		} catch (IOException e)
 		{
 			e.printStackTrace();
+			System.out.println("Client SIDE: ClientIO Exception");
 		}
 	}
 }

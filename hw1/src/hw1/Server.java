@@ -6,12 +6,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Server
 {
 	static ArrayList<ServerIO> clients = new ArrayList<ServerIO>();
-	private static Scanner scan;
 
 	public static void main(String[] args)
 	{
@@ -24,10 +22,10 @@ public class Server
 			while (true)
 			{
 				Socket clientSocket = serverSocket.accept(); //waiting for client to connect
-				System.out.print("Enter Username:  ");
+				System.out.println("Client connecting...");
 				
-				scan = new Scanner(System.in);
-				username = scan.nextLine();
+				DataInputStream inStream = new DataInputStream(clientSocket.getInputStream());
+				username = inStream.readUTF();
 				System.out.println(username + " has connected to server");
 				
 				ServerIO s_io = new ServerIO(clientSocket, username);
@@ -38,7 +36,8 @@ public class Server
 			}
 		} catch (IOException e)
 		{
-			System.out.println("SERVER SIDE: clientSocket excpetion");
+			System.out.println("Server SIDE: clientSocket excpetion");
+			e.printStackTrace();
 		}
 	}
 }
@@ -65,7 +64,6 @@ class ServerIO implements Runnable
 			outStream.writeUTF("You are Client " + name);
 			outStream.flush();
 			
-			
 			while(true)
 			{
 				String input = inStream.readUTF();
@@ -82,7 +80,8 @@ class ServerIO implements Runnable
 			}
 		} catch (IOException e)
 		{
-			System.out.println("SERVER SIDE: ServerIO Exception");
+			System.out.println("Server SIDE: ServerIO Exception");
+			e.printStackTrace();
 		}
 	}
 }
