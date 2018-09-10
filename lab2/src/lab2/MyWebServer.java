@@ -29,9 +29,9 @@ public class MyWebServer
 			Socket clientSocket = null;
 			try
 			{
-				// System.out.println("Waiting for client " + (clientNum+1) +" to connect!");
+				System.out.println("Waiting for client " + (clientNum+1) +" to connect!");
 				clientSocket = serverSocket.accept();
-				// System.out.println("Server got connected to a client" + ++clientNum);
+				System.out.println("Server got connected to a client" + ++clientNum);
 				Thread t = new Thread(new WebClient(clientSocket, clientNum));
 				t.start();
 			} catch (IOException e)
@@ -39,12 +39,10 @@ public class MyWebServer
 				System.out.println("Accept failed: 4444");
 				System.exit(-1);
 			}
-
 		}
-
 	}
 
-} // end of class
+}
 
 class WebClient implements Runnable
 {
@@ -79,22 +77,20 @@ class WebClient implements Runnable
 				// return the message
 				out.println("<HTML>Hi there! \n\n</HTML>");
 				out.flush(); // makes sure data is sent over.
-
 			}
 
-			// System.out.println("Message from Client" +num + ":" + in.nextLine());
+			System.out.println("Message from Client" +num + ":" + in.nextLine());
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	void printSocket(Socket s)
 	{
-		// System.out.print("Socket on Server " + Thread.currentThread() + " " );
-		// System.out.print("Local Address: " + s.getLocalAddress() + ":" +
-		// s.getLocalPort());
-		// System.out.println(" Remote Address: " + s.getRemoteSocketAddress());
+		 System.out.print("Socket on Server " + Thread.currentThread() + " " );
+		 System.out.print("Local Address: " + s.getLocalAddress() + ":" +
+		 s.getLocalPort());
+		 System.out.println(" Remote Address: " + s.getRemoteSocketAddress());
 	}
-} // end of class
+}

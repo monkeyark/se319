@@ -51,7 +51,6 @@ public class ListClient
 		{
 			e.printStackTrace();
 		}
-
 	}
 
 	public void handleMessage(String cmd, String s)
@@ -72,9 +71,9 @@ public class ListClient
 	public static void main(String[] args)
 	{
 		ListClient lc = new ListClient();
-	} // end of main method
+	}
+}
 
-} // end of ListClient
 
 class ServerListener implements Runnable
 {
@@ -103,6 +102,5 @@ class ServerListener implements Runnable
 			String s = in.nextLine();
 			lc.handleMessage(cmd, s);
 		}
-
 	}
 }

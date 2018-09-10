@@ -54,15 +54,11 @@ public class MyServer
 				System.out.println("Accept failed: 4444");
 				System.exit(-1);
 			}
-
 			// 2.3 GO BACK TO WAITING FOR OTHER CLIENTS
 			// (While the thread that was created handles the connected client's request)
-
-		} // end while loop
-
-	} // end of main method
-
-} // end of class MyServer
+		}
+	}
+}
 
 class ClientHandler implements Runnable
 {
@@ -85,24 +81,22 @@ class ClientHandler implements Runnable
 		{
 			// 1. USE THE SOCKET TO READ WHAT THE CLIENT IS SENDING
 			in = new Scanner(new BufferedInputStream(s.getInputStream()));
-			String clientMessage = in.nextLine();
-
+			String clientMessage;
+			clientMessage = in.nextLine();
+			
 			// 2. PRINT WHAT THE CLIENT SENT
 			System.out.println("Message from Client" + num + ":" + clientMessage);
-
 		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-
 		// This handling code dies after doing all the printing
-	} // end of method run()
+	}
 
 	void printSocketInfo(Socket s)
 	{
 		System.out.print("Socket on Server " + Thread.currentThread() + " ");
 		System.out.print("Server socket Local Address: " + s.getLocalAddress() + ":" + s.getLocalPort());
 		System.out.println("  Server socket Remote Address: " + s.getRemoteSocketAddress());
-	} // end of printSocketInfo
-
-} // end of class ClientHandler
+	}
+}
