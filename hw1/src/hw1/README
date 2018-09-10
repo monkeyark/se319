@@ -5,3 +5,19 @@ Run Server.java for once. One server will be able to connect multiple clients.
 Run Client.java to connect the Server. Client.java can be run many times.
 Each run will create a new client that connects to the server.
 Input a username to join the chat room. Input message in client window to chat with other clients.
+
+
+Client:
+Run Client.java to start a new client session.
+New client is created on localhost with port 4040 through socket, it will get output stream from server and send input stream back to server.
+A thread starts an infinity loop to read input stream from server. If there is a message, then print it in the console.
+An infinity loop to read System.in for the client window and force to output to server.
+
+
+Server:
+Run Server.java to start a new server session.
+New server is created localhost with port 4040, and it will be running in an infinity loop to execute the following steps.
+Server wait to accept socket from any clients.
+Once a client's socket is accepted, the server will receive the username from the connecting client and print the client information.
+A ServerIO object will be added to arraylist to keep track of all connect client.
+A thread starts an infinity loop to read input and output stream for each accepted socket.
