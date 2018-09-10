@@ -5,75 +5,86 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Scanner;
+
 
 public class Client
 {
 	Socket serverSocket;
-	String serverHostname;
-	int serverPort;
-	ServerIO s_io;
-	
-	Client(String hostname, int port)
+	String serverHostName = "localhost";
+	int serverPortNumber = 4444;
+	ServerListener sl;
+
+	Client()
 	{
 		try
 		{
-			serverHostname = hostname;
-			serverPort = port;
+			serverSocket = new Socket(serverHostName, serverPortNumber);
 			
-			serverSocket = new Socket(hostname, port);
-		} catch (UnknownHostException e)
-		{
-			System.out.println("CLIENT SIDE: client excpetion");
-			e.printStackTrace();
+			sl = new ServerListener(this, serverSocket);
+			new Thread(sl).start();
+			PrintWriter out;
+			
+			out = new PrintWriter(new BufferedOutputStream(serverSocket.getOutputStream()));
+			
+			
+			out.println("This is message from client");
+			out.flush();
+			
 		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-		
-		s_io = new ServerIO(this, serverSocket);
-		Thread t = new Thread(s_io);
-		t.start();
-		
 	}
-	
-	public void main(String[] args)
+
+	public void handleMessage(String cmd, String s)
 	{
-		Client client = new Client("localHost", 5555);
+		switch (cmd)
+		{
+		case "print":
+			System.out.println("client side: " + s);
+			break;
+		case "exit":
+			System.exit(-1);
+			break;
+		default:
+			System.out.println("client side: unknown command received:" + cmd);
+		}
+	}
+
+	public static void main(String[] args)
+	{
+		Client client = new Client();
 	}
 }
 
-class ServerIO implements Runnable
+
+class ServerListener implements Runnable
 {
 	Client c;
-	Socket s;
-	
-	ServerIO(Client client, Socket socket)
+	Scanner in; // this is used to read which is a blocking call
+
+	ServerListener(Client c, Socket s)
 	{
-		c = client;
-		s = socket;
+		try
+		{
+			this.c = c;
+			in = new Scanner(new BufferedInputStream(s.getInputStream()));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void run()
 	{
-		try
+		while (true)
 		{
-			Scanner in;
-			PrintWriter out;
-			BufferedInputStream input = new BufferedInputStream(s.getInputStream());
-			BufferedOutputStream output = new BufferedOutputStream(s.getOutputStream());
-			in = new Scanner(input);
-			out = new PrintWriter(output);
-			
-			out.flush();
-			
-			//handle the inputStream and send the input to another client
-			
-		} catch (Exception e)
-		{
-			System.out.println("CLIENT SIDE: SERVERIO excpetion");
+			System.out.println("Client - waiting to read");
+			String cmd = in.next();
+			String s = in.nextLine();
+			c.handleMessage(cmd, s);
 		}
 	}
 }
