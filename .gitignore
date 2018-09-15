@@ -96,3 +96,28 @@ local.properties
 *.rar
 
 hs_err_pid*
+
+
+
+
+
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+
+
+
+# compiled output
+/dist
+/out-tsc
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
