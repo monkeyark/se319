@@ -3,15 +3,20 @@ function validation1()
 {
     if (check())
     {
-        //go next page
+        setTimeout(nextpage,3000);
     }
     return false;
+}
+
+function nextpage()
+{
+    window.open("valiadtion2.html", "_self");
 }
 
 function check()
 {
     var pass = false;
-    first = document.getElementById("firstName").value;
+    var first = document.getElementById("firstName").value;
     if(alphanumeric(first))
     {
         showCorrect("firstNameimg");
@@ -22,7 +27,7 @@ function check()
         showWrong("firstNameimg");
         pass = false;
     }
-    last = document.getElementById("lastName").value;
+    var last = document.getElementById("lastName").value;
     if(alphanumeric(last))
     {
         showCorrect("lastNameimg");
@@ -33,7 +38,7 @@ function check()
         showWrong("lastNameimg");
         pass = false;
     }
-    gender = document.getElementById("gender").value;
+    var gender = document.getElementById("gender").value;
     if(notEmpty(gender))
     {
         showCorrect("genderimg");
@@ -41,10 +46,10 @@ function check()
     }
     else
     {
-        showWrong("gender");
+        showWrong("genderimg");
         pass = false;
     }
-    state = document.getElementById("state").value;
+    var state = document.getElementById("state").value;
     if(notEmpty(state))
     {
         showCorrect("stateimg");
@@ -61,7 +66,7 @@ function check()
 
 function alphanumeric(str)
 {
-    return str.matches("^[A-z0-9]+$");
+    return /^[A-z0-9]+$/.test(str);
 }
 
 function notEmpty(str)
