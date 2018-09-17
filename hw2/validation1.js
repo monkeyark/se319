@@ -1,42 +1,42 @@
 
-function validation()
+function validation1()
 {
-    if (imgShow())
+    if (check())
     {
         //go next page
     }
     return false;
 }
 
-function imgShow()
+function check()
 {
     var pass = false;
     first = document.getElementById("firstName").value;
-    if(onlyNumLetter(first))
+    if(alphanumeric(first))
     {
-        showCorrect("firstName");
+        showCorrect("firstNameimg");
         pass = true;
     }
     else
     {
-        showWrong("firstName");
+        showWrong("firstNameimg");
         pass = false;
     }
     last = document.getElementById("lastName").value;
-    if(onlyNumLetter(last))
+    if(alphanumeric(last))
     {
-        showCorrect("lastName");
+        showCorrect("lastNameimg");
         pass = true;
     }
     else
     {
-        showWrong("lastName");
+        showWrong("lastNameimg");
         pass = false;
     }
     gender = document.getElementById("gender").value;
     if(notEmpty(gender))
     {
-        showCorrect("gender");
+        showCorrect("genderimg");
         pass = true;
     }
     else
@@ -47,19 +47,19 @@ function imgShow()
     state = document.getElementById("state").value;
     if(notEmpty(state))
     {
-        showCorrect("state");
+        showCorrect("stateimg");
         pass = true;
     }
     else
     {
-        showWrong("state");
+        showWrong("stateimg");
         pass = false;
     }
 
     return pass;
 }
 
-function onlyNumLetter(str)
+function alphanumeric(str)
 {
     return str.matches("^[A-z0-9]+$");
 }
