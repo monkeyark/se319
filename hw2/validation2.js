@@ -1,13 +1,15 @@
 function validation2()
 {
-    if (check())
+    var c = check();
+    if (c)
     {
-        setTimeout(givealert, 1000);
+        setTimeout(showAlert, 1000);
+        ///showAlert();
     }
     return false;
 }
 
-function givealert()
+function showAlert()
 {
     alert("Thank you for your submission");
 }
