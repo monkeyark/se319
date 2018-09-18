@@ -2,9 +2,14 @@ function validation2()
 {
     if (check())
     {
-        //submit
+        setTimeout(givealert, 1000);
     }
     return false;
+}
+
+function givealert()
+{
+    alert("Thank you for your submission");
 }
 
 function check()
