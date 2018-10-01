@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="snake.js"></script>
+    <title>Snake</title>
+</head>
+<body>
+
+    <div style="margin-bottom: 5px">
+            <button id="ToggleStateButton">Start</button>
+            <button id="TurnLeftButton">Turn Left</button>
+            <button id="TurnRightButton">Turn Right</button>
+        </div>
+    
+        <canvas id="Canvas" width="647" height="400"
+                style="border:1px solid #c3c3c3;">
+            Your browser does not support the canvas element.
+        </canvas>
+    
+        <script>
+            window.onload = Snake.Model.init();
+        </script>
+</body>
+</html>
