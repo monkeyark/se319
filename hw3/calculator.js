@@ -8,6 +8,7 @@ var Calc =
 		result: "0",
 		memo: 0,
 		operation: "",
+		negative: 1,
 	},
 
 
@@ -64,13 +65,13 @@ var Calc =
 
 		buttonMemoryHandler: function (p)
 		{
-			if (p == 'MC')
-			{
-				Calc.Model.memo = 0;
-			}
-			else if (p == 'MR')
+			if (p == 'MR')
 			{
 				document.getElementById("textRow").value = Calc.Model.memo;
+			}
+			else if (p == 'MC')
+			{
+				Calc.Model.memo = 0;
 			}
 			else if (p == 'M+')
 			{
@@ -93,6 +94,10 @@ var Calc =
 			}
 			else if (p == '-')
 			{
+				if (document.getElementById("textRow").value == 0)
+				{
+					Calc.Model.negative = -1;
+				}
 				Calc.Model.operation = '-';
 			}
 			else if (p == '*')
@@ -103,39 +108,38 @@ var Calc =
 			{
 				Calc.Model.operation = '/';
 			}
-			else if (p == '')
-			{
-				Calc.Model.operation = '';
-			}
 
 			document.getElementById("textRow").value = p;
 		},
 
 		calculate: function (prv, cur, p)
 		{
+			prv = prv * Calc.Model.negative;
+			Calc.Model.negative = 1;
+
 			if (p == '+')
 			{
 				Calc.Model.result = String(Number(prv) + Number(cur));
+				Calc.Model.previous = Calc.Model.result;
 				Calc.Model.previous = String(cur);
 			}
 			else if (p == '-')
 			{
 				Calc.Model.result = String(Number(prv) - Number(cur));
+				Calc.Model.previous = Calc.Model.result;
 				Calc.Model.previous = String(cur);
 			}
 			else if (p == '*')
 			{
 				Calc.Model.result = String(Number(prv) * Number(cur));
+				Calc.Model.previous = Calc.Model.result;
 				Calc.Model.previous = String(cur);
 			}
 			else if (p == '/')
 			{
 				Calc.Model.result = String(Number(prv) / Number(cur));
+				Calc.Model.previous = Calc.Model.result;
 				Calc.Model.previous = String(cur);
-			}
-			else if (p = '')
-			{
-
 			}
 
 		},
@@ -143,13 +147,9 @@ var Calc =
 		buttonEqualHandler: function ()
 		{
 			Calc.Controller.calculate(Calc.Model.previous, Calc.Model.current, Calc.Model.operation);
-			document.getElementById("textRow").value = Calc.Model.result;
-			Calc.Controller.cleanOperator();
-		},
-
-		cleanOperator: function ()
-		{
+			Calc.Model.current = Calc.Model.result;
 			Calc.Model.operation = "";
+			document.getElementById("textRow").value = Calc.Model.result;
 		},
 
 		buttonCHandler: function ()
@@ -160,7 +160,6 @@ var Calc =
 			Calc.Model.operation = "";
 			document.getElementById("textRow").value = 0;
 		}
-
 
 	},
 
@@ -248,10 +247,10 @@ var Calc =
 		Calc.View.buttonTime.onclick = "Calc.Controller.buttonOperatorHandler('*')";
 		Calc.View.buttonDivide.onclick = "Calc.Controller.buttonOperatorHandler('/')";
 
-		Calc.View.buttonMR.onclick = "Calc.Controller.buttonMemoryHandler(MR)";
-		Calc.View.buttonMC.onclick = "Calc.Controller.buttonMemoryHandler(MC)";
-		Calc.View.buttonMP.onclick = "Calc.Controller.buttonMemoryHandler(M+)";
-		Calc.View.buttonMM.onclick = "Calc.Controller.buttonMemoryHandler(M-)";
+		Calc.View.buttonMR.onclick = "Calc.Controller.buttonMemoryHandler('MR')";
+		Calc.View.buttonMC.onclick = "Calc.Controller.buttonMemoryHandler('MC')";
+		Calc.View.buttonMP.onclick = "Calc.Controller.buttonMemoryHandler('M+')";
+		Calc.View.buttonMM.onclick = "Calc.Controller.buttonMemoryHandler('M-')";
 		
 		Calc.View.buttonC.onclick = "Calc.Controller.buttonCHandler()";
 		Calc.View.buttonEqual.onclick = "Calc.Controller.buttonEqualHandler()";
