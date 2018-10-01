@@ -6,7 +6,7 @@ var Calc =
 		previous: "0",
 		current: "0",
 		result: "0",
-		memo: "0",
+		memo: 0,
 		operation: "",
 	},
 
@@ -37,9 +37,9 @@ var Calc =
 
 		buttonC: { id: "buttonC", type: "button", value: "C", onclick: "" },
 		buttonMR: { id: "buttonMR", type: "button", value: "MR", onclick: "" },
+		buttonMC: { id: "buttonMC", type: "button", value: "MC", onclick: "" },
 		buttonMM: { id: "buttonMM", type: "button", value: "M-", onclick: "" },
 		buttonMP: { id: "buttonMP", type: "button", value: "M+", onclick: "" },
-		buttonMC: { id: "buttonMC", type: "button", value: "MC", onclick: "" }
 	},
 
 
@@ -62,10 +62,24 @@ var Calc =
 			document.getElementById("textRow").value = Calc.Model.current;
 		},
 
-		negativeNumberHandler: function ()
+		buttonMemoryHandler: function (p)
 		{
-			Calc.Model.current = "-";
-			document.getElementById("textRow").value = Calc.Model.current;
+			if (p == 'MC')
+			{
+				Calc.Model.memo = 0;
+			}
+			else if (p == 'MR')
+			{
+				document.getElementById("textRow").value = Calc.Model.memo;
+			}
+			else if (p == 'M+')
+			{
+				Calc.Model.memo += Number(document.getElementById("textRow").value);
+			}
+			else if (p == 'M-')
+			{
+				Calc.Model.memo -= Number(document.getElementById("textRow").value);
+			}
 		},
 
 		buttonOperatorHandler: function (p)
@@ -146,7 +160,11 @@ var Calc =
 			Calc.Model.operation = "";
 			document.getElementById("textRow").value = 0;
 		}
+
+
 	},
+
+
 
 	run: function ()
 	{
@@ -230,14 +248,14 @@ var Calc =
 		Calc.View.buttonTime.onclick = "Calc.Controller.buttonOperatorHandler('*')";
 		Calc.View.buttonDivide.onclick = "Calc.Controller.buttonOperatorHandler('/')";
 
+		Calc.View.buttonMR.onclick = "Calc.Controller.buttonMemoryHandler(MR)";
+		Calc.View.buttonMC.onclick = "Calc.Controller.buttonMemoryHandler(MC)";
+		Calc.View.buttonMP.onclick = "Calc.Controller.buttonMemoryHandler(M+)";
+		Calc.View.buttonMM.onclick = "Calc.Controller.buttonMemoryHandler(M-)";
+		
 		Calc.View.buttonC.onclick = "Calc.Controller.buttonCHandler()";
-		Calc.View.buttonMR.onclick = "Calc.Controller.buttonMR()";
-		Calc.View.buttonMM.onclick = "Calc.Controller.buttonMM()";
-		Calc.View.buttonMP.onclick = "Calc.Controller.buttonMP()";
-		Calc.View.buttonMC.onclick = "Calc.Controller.buttonMC()";
-
 		Calc.View.buttonEqual.onclick = "Calc.Controller.buttonEqualHandler()";
-	}
+	},
 
 
 }
