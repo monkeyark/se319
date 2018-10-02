@@ -11,7 +11,7 @@ var Snak =
         // Snak.View.buttonTurnLeft.onclick = "Snak.Controller.turnLeft(Snak.Model.direction)";
         // Snak.View.buttonTurnRight.onclick = "Snak.Controller.turnRight(Snak.Model.direction";
         
-        setInterval(Snak.listener, 10);
+        Snak.Model.interval = setInterval(Snak.listener, 10);
     },
     listener: function ()
     {
@@ -31,11 +31,12 @@ var Snak =
     Model:
     {
         row: 0,
-        col: 100,
+        col: 200,
         direction: "RIGHT",
         canvas: 0,
         path: 0,
         isRun: false,
+        interval: 0,
     },
     
     
@@ -73,6 +74,13 @@ var Snak =
                 Snak.Model.row += 1;
                 Snak.Model.path.fillStyle = "#FF0000";
                 Snak.Model.path.fillRect(Snak.Model.row,Snak.Model.col,10,10);
+            }
+
+            if (!Snak.Controller.isInside())
+            {
+                clearInterval(Snak.Model.interval);
+                alert("Your are doomed!");
+                return;
             }
         },
 
@@ -124,7 +132,14 @@ var Snak =
             }
         },
 
-        
+        isInside: function ()
+        {
+            return Snak.Model.row > 0 &&
+            Snak.Model.col > 0 &&
+            Snak.Model.row < Snak.Model.canvas.width-1 &&
+            Snak.Model.col < Snak.Model.canvas.height-1;
+        },
+
     },
 
 }

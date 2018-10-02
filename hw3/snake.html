@@ -9,15 +9,14 @@
 </head>
 <body>
 
-    <div id="mySnake"></div>    
+    <button id="buttonStart">Start</button>
+    <button id="buttonTurnLeft">Turn Left</button>
+    <button id="buttonTurnRight">Turn Right</button>
+    <br/><br/>
     
-    <div id="mySnake" style="margin-bottom: 5px">
-        <button id="buttonStart">Start</button>
-        <button id="buttonTurnLeft">Turn Left</button>
-        <button id="buttonTurnRight">Turn Right</button>
-    </div>
-
-    <canvas id="Canvas" width="647" height="400" style="border:1px solid #c3c3c3;"></canvas>
+    <canvas id="Canvas" width="600" height="600" style="border:1px solid #c3c3c3;"></canvas>
+    <br/><br/>
+    <div id="mySnake" type=""></div>
 
     <script>
         document.getElementById("mySnake").innerHTML = Snak.run();
