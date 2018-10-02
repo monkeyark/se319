@@ -10,7 +10,15 @@
 <body>
 
     <div id="mySnake"></div>    
-            
+    
+    <div id="mySnake" style="margin-bottom: 5px">
+        <button id="buttonStart">Start</button>
+        <button id="buttonTurnLeft">Turn Left</button>
+        <button id="buttonTurnRight">Turn Right</button>
+    </div>
+
+    <canvas id="Canvas" width="647" height="400" style="border:1px solid #c3c3c3;"></canvas>
+
     <script>
         document.getElementById("mySnake").innerHTML = Snak.run();
     </script>

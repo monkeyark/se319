@@ -2,126 +2,125 @@ var Snak =
 {
     run: function ()
 	{
-        setInterval(Snak.listener(), 10);
-		return Snak.display();
+        Snak.init();
+
+        document.getElementById("buttonStart").onclick = Snak.Controller.startStop;
+        document.getElementById("buttonTurnLeft").onclick = Snak.Controller.turnLeft;
+        document.getElementById("buttonTurnRight").onclick = Snak.Controller.turnRight;
+        // Snak.View.buttonStart.onclick = "Snak.Controller.startStop()";
+        // Snak.View.buttonTurnLeft.onclick = "Snak.Controller.turnLeft(Snak.Model.direction)";
+        // Snak.View.buttonTurnRight.onclick = "Snak.Controller.turnRight(Snak.Model.direction";
+        
+        setInterval(Snak.listener, 10);
     },
     listener: function ()
     {
-        console.log(Snak.display());
-        Snak.attachHandlers();
+        console.log(Snak.Model.isRun);
+        if (Snak.Model.isRun)
+        {
+            Snak.Controller.draw();
+        }
     },
-    attachHandlers: function ()
-    {
-        Snak.View.buttonStart.onclick = "Snak.Controller.StartStop()";
-		Snak.View.buttonTurnLeft.onclick = "Snak.Controller.turnLeft(Snak.Model.directon)";
-		Snak.View.buttonTurnRight.onclick = "Snak.Controller.turnRight('Right')";
-    },
-    displayElement: function (element)
-    {
-		var s = "<input ";
-		s += " id=\"" + element.id + "\"";
-		s += " type=\"" + element.type + "\"";
-		s += " value= \"" + element.value + "\"";
-		s += " onclick= \"" + element.onclick + "\"";
-		s += ">";
-		return s;
-	},
 
-	display: function ()
-	{
-        var s;
-        s = "<div id=\"mySnake\" style='margin-bottom: 5px'>";
-        s += "<button id='ToggleStateButton'>Start</button>";
-        s += "<button id='TurnLeftButton'>Turn Left</button>";
-        s += "<button id='TurnRightButton'>Turn Right</button>";
-        s += "</div>";
-        //s += path;
-        s += "<canvas id=\"Canvas\" width='647' height='400' style='border:1px solid #c3c3c3;'>";
-        s += "</canvas>";
-		return s;
-	},
-    
-    /*
-    run: function ()
+    init: function ()
     {
-        document.getElementById("TurnLeftButton").onclick = function () { snake.ChangeDirection('Left') };
-        document.getElementById("TurnRightButton").onclick = function () { snake.ChangeDirection('Right') };
-        document.getElementById("ToggleStateButton").onclick = function () { snake.ToggleState() };
-        var c = document.getElementById("Canvas");
-        var s = c.getContext("2d");
-        s.fillStyle = "#FF0000";
-        s.fillRect(50,50,10,10);
+        Snak.Model.canvas = document.getElementById("Canvas");
+        Snak.Model.path = Snak.Model.canvas.getContext("2d");
     },
-    */
-
 
     Model:
     {
-        x: 0,
-        y: 20,
-        isRun: false,
-        directon: "RIGHT",
+        row: 0,
+        col: 100,
+        direction: "RIGHT",
         canvas: 0,
-        path:0,
-        //var canvas = document.getElementById("Canvas");
-        //path = canvas.getContext("2d"),
-        //path.fillStyle = "#FF0000",
-        //path.fillRect(50,50,10,10),
+        path: 0,
+        isRun: false,
     },
     
-    View:
-    {
-        buttonStart: { id: "buttonStart", type: "button", value: "Start", onclick: "" },
-		buttonTurnLeft: { id: "buttonTurnLeft", type: "button", value: "TurnLeft", onclick: "" },
-		buttonTurnRight: { id: "buttonTurnRight", type: "button", value: "TurnRight", onclick: "" },
-    },
+    
+    // View:
+    // {
+    //     buttonStart: { id: "buttonStart", type: "button", value: "Start", onclick: "" },
+	// 	buttonTurnLeft: { id: "buttonTurnLeft", type: "button", value: "TurnLeft", onclick: "" },
+    //     buttonTurnRight: { id: "buttonTurnRight", type: "button", value: "TurnRight", onclick: "" },
+    // },
 
     Controller:
     {
+        draw: function ()
+        {
+            if (Snak.Model.direction == "UP")
+            {
+                Snak.Model.col -= 1;
+                Snak.Model.path.fillStyle = "#FF0000";
+                Snak.Model.path.fillRect(Snak.Model.row,Snak.Model.col,10,10);
+            }
+            else if (Snak.Model.direction == "DOWN")
+            {
+                Snak.Model.col += 1;
+                Snak.Model.path.fillStyle = "#FF0000";
+                Snak.Model.path.fillRect(Snak.Model.row,Snak.Model.col,10,10);
+            }
+            else if (Snak.Model.direction == "LEFT")
+            {
+                Snak.Model.row -= 1;
+                Snak.Model.path.fillStyle = "#FF0000";
+                Snak.Model.path.fillRect(Snak.Model.row,Snak.Model.col,10,10);
+            }
+            else if (Snak.Model.direction == "RIGHT")
+            {
+                Snak.Model.row += 1;
+                Snak.Model.path.fillStyle = "#FF0000";
+                Snak.Model.path.fillRect(Snak.Model.row,Snak.Model.col,10,10);
+            }
+        },
+
         startStop: function ()
         {
-            Snak.Mdoel.fillStyle = "#FF0000";
-            Snak.Model.fillRect(50,50,10,10);
+            Snak.Model.isRun = !Snak.Model.isRun;
         },
 
-        turnLeft: function (direc)
+        turnLeft: function ()
         {
-            if (direc == 'RIGHT')
+            console.log("turnLeft");
+            if (Snak.Model.direction == "RIGHT")
             {
-                Snak.Model.directon = "UP";
+                Snak.Model.direction = "UP";
             }
-            else if (direc == 'LEFT')
+            else if (Snak.Model.direction == "LEFT")
             {
-                Snak.Model.directon = "DOWN";
+                Snak.Model.direction = "DOWN";
             }
-            else if (direc == 'UP')
+            else if (Snak.Model.direction == "UP")
             {
-                Snak.Model.directon = "LEFT";
+                Snak.Model.direction = "LEFT";
             }
-            else if (direc == 'DOWN')
+            else if (Snak.Model.direction == "DOWN")
             {
-                Snak.Model.directon = "RIGHT";
+                Snak.Model.direction = "RIGHT";
             }
-
         },
 
-        turnRight: function (direc)
+        turnRight: function ()
         {
-            if (direc == 'RIGHT')
+            console.log("turnRight");
+            if (Snak.Model.direction == "RIGHT")
             {
-                Snak.Model.directon = "DOWN";
+                console.log("direction change to DOWN");
+                Snak.Model.direction = "DOWN";
             }
-            else if (direc == 'LEFT')
+            else if (Snak.Model.direction == "LEFT")
             {
-                Snak.Model.directon = "UP";
+                Snak.Model.direction = "UP";
             }
-            else if (direc == 'UP')
+            else if (Snak.Model.direction == "UP")
             {
-                Snak.Model.directon = "RIGHT";
+                Snak.Model.direction = "RIGHT";
             }
-            else if (direc == 'DOWN')
+            else if (Snak.Model.direction == "DOWN")
             {
-                Snak.Model.directon = "LEFT";
+                Snak.Model.direction = "LEFT";
             }
         },
 
