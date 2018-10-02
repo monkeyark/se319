@@ -1,7 +1,7 @@
 
 var Calc =
 {
-	Modle:
+	Model:
 	{
 		previous: "0",
 		current: "0",
