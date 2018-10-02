@@ -2,17 +2,20 @@ var Snak =
 {
     run: function ()
 	{
-		Snak.attachHandlers();
-		console.log(Snak.display());
+        setInterval(Snak.listener(), 10);
 		return Snak.display();
     },
-    attachHandlers: function()
+    listener: function ()
     {
-        Snak.View.buttonStart.onclick = "Calc.Controller.buttonDigitHandler(0)";
-		Snak.View.buttonTurnLeft.onclick = "Calc.Controller.buttonDigitHandler(1)";
-		Snak.View.buttonTurnRight.onclick = "Calc.Controller.buttonDigitHandler(2)";
+        console.log(Snak.display());
+        Snak.attachHandlers();
     },
-
+    attachHandlers: function ()
+    {
+        Snak.View.buttonStart.onclick = "Snak.Controller.StartStop()";
+		Snak.View.buttonTurnLeft.onclick = "Snak.Controller.turnLeft(Snak.Model.directon)";
+		Snak.View.buttonTurnRight.onclick = "Snak.Controller.turnRight('Right')";
+    },
     displayElement: function (element)
     {
 		var s = "<input ";
@@ -24,7 +27,6 @@ var Snak =
 		return s;
 	},
 
-
 	display: function ()
 	{
         var s;
@@ -33,7 +35,7 @@ var Snak =
         s += "<button id='TurnLeftButton'>Turn Left</button>";
         s += "<button id='TurnRightButton'>Turn Right</button>";
         s += "</div>";
-
+        //s += path;
         s += "<canvas id=\"Canvas\" width='647' height='400' style='border:1px solid #c3c3c3;'>";
         s += "</canvas>";
 		return s;
@@ -49,15 +51,22 @@ var Snak =
         var s = c.getContext("2d");
         s.fillStyle = "#FF0000";
         s.fillRect(50,50,10,10);
-
-        var i= 100;
-        //var timer = setInterval(function() {document.getElementById().innerHTML = i--;}.1000);
     },
     */
 
 
     Model:
     {
+        x: 0,
+        y: 20,
+        isRun: false,
+        directon: "RIGHT",
+        canvas: 0,
+        path:0,
+        //var canvas = document.getElementById("Canvas");
+        //path = canvas.getContext("2d"),
+        //path.fillStyle = "#FF0000",
+        //path.fillRect(50,50,10,10),
     },
     
     View:
@@ -67,8 +76,56 @@ var Snak =
 		buttonTurnRight: { id: "buttonTurnRight", type: "button", value: "TurnRight", onclick: "" },
     },
 
-    Controll:
+    Controller:
     {
+        startStop: function ()
+        {
+            Snak.Mdoel.fillStyle = "#FF0000";
+            Snak.Model.fillRect(50,50,10,10);
+        },
+
+        turnLeft: function (direc)
+        {
+            if (direc == 'RIGHT')
+            {
+                Snak.Model.directon = "UP";
+            }
+            else if (direc == 'LEFT')
+            {
+                Snak.Model.directon = "DOWN";
+            }
+            else if (direc == 'UP')
+            {
+                Snak.Model.directon = "LEFT";
+            }
+            else if (direc == 'DOWN')
+            {
+                Snak.Model.directon = "RIGHT";
+            }
+
+        },
+
+        turnRight: function (direc)
+        {
+            if (direc == 'RIGHT')
+            {
+                Snak.Model.directon = "DOWN";
+            }
+            else if (direc == 'LEFT')
+            {
+                Snak.Model.directon = "UP";
+            }
+            else if (direc == 'UP')
+            {
+                Snak.Model.directon = "RIGHT";
+            }
+            else if (direc == 'DOWN')
+            {
+                Snak.Model.directon = "LEFT";
+            }
+        },
+
+        
     },
 
 }
