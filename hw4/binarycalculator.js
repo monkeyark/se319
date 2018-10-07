@@ -13,53 +13,85 @@ var resultBin;
 evaluation(action);
 
 
-
-function evaluation(operator) {
-    switch (operator) {
+function evaluation(operator)
+{
+    switch (operator)
+    {
         case "+":
             resultDec = eval(num1Dec + action + num2Dec);
             resultBin = parseInt(resultDec, 10).toString(2);
+            console.log('sum: ' + resultBin);
             break;
         case "-":
             resultDec = eval(num1Dec + action + num2Dec);
             resultBin = parseInt(resultDec, 10).toString(2);
+            console.log('minus: ' + resultBin);
             break;
         case "*":
             resultDec = eval(num1Dec + action + num2Dec);
             resultBin = parseInt(resultDec, 10).toString(2);
+            console.log('multiply: ' + resultBin);
             break;
         case "/":
             resultDec = eval(num1Dec + action + num2Dec);
             resultBin = parseInt(resultDec, 10).toString(2);
+            console.log('division: ' + resultBin);
             break;
         case "%":
             resultDec = eval(num1Dec + action + num2Dec);
             resultBin = parseInt(resultDec, 10).toString(2);
+            console.log('mod: ' + resultBin);
             break;
         case "&":
-            resultBin = num1Bin & num2Bin;
-            resultDec = parseInt(resultBin, 2).toString(10);
+            resultDec = num1Dec & num2Dec;
+            resultBin = parseInt(resultDec, 10).toString(2);
+            console.log('and: ' + resultBin);
             break;
         case "|":
-            resultBin = num1Bin | num2Bin;
-            resultDec = parseInt(resultBin, 2).toString(10);
+            resultDec = num1Dec | num2Dec;
+            resultBin = parseInt(resultDec, 10).toString(2);
+            console.log('or: ' + resultBin);
             break;
         case "<<":
-            num1Bin = num1Bin << 1;
-            resultBin = num1Bin;
+            num1Dec = num1Dec << 1;
+            num2Dec = num2Dec << 1;
+            num1Bin = parseInt(num1Dec, 10).toString(2);
+            num2Bin = parseInt(num2Dec, 10).toString(2);
+            console.log('bitwise left shift 1st number: ' + num1Bin);
+            console.log('bitwise left shift 2nd number: ' + num2Bin);
             break;
         case ">>":
-            num1Bin = num1Bin >> 1;
-            resultBin = num1Bin;
+            num1Dec = num1Dec >> 1;
+            num2Dec = num2Dec >> 1;
+            num1Bin = parseInt(num1Dec, 10).toString(2);
+            num2Bin = parseInt(num2Dec, 10).toString(2);
+            console.log('bitwise right shift 1st number: ' + num1Bin);
+            console.log('bitwise right shift 2nd number: ' + num2Bin);
             break;
         case "~":
-        resultDec = ~num1Dec;
-        resultBin = parseInt(resultDec, 10).toString(2);
-            //resultBin = num1Bin;
+            num1Dec = -1 * (num1Dec + 1);
+            //num1Dec = -1 * num1Dec;
+            num2Dec = ~num2Dec;
+            //num2Dec = -1 * num2Dec;
+
+            num1Bin = parseInt(num1Dec, 10).toString(2);
+            num2Bin = parseInt(num2Dec, 10).toString(2);
+            console.log('not 1st number: ' + num1Bin);
+            console.log('not 2nd number: ' + num2Bin);
+/*
+            //resultDec = num1Dec & num2Dec;
+            resultBin = parseInt(resultDec, 10).toString(2);
+            console.log('and: ' + resultBin);
+
+            num1Bin = ~num1Bin;
+            num2Bin = ~num2Bin;
+            console.log('not 1st number: ' + num1Bin);
+            console.log('not 2nd number: ' + num2Bin);
+*/
             break;
     }
-
 }
-
+/*
 console.log('result in Decimal: ' + resultDec);
 console.log('result in Binary: ' + resultBin);
+*/
