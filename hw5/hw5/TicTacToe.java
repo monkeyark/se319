@@ -88,7 +88,7 @@ public class TicTacToe extends Application
 			{
 				if (!playable) return;
 				
-				if (event.getButton() == MouseButton.PRIMARY)
+				if (event.getButton() == MouseButton.PRIMARY && state == null)
 				{
 					if (nextState == State.X)
 					{
