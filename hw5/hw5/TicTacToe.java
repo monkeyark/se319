@@ -1,8 +1,7 @@
 package hw5;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -74,7 +73,7 @@ public class TicTacToe extends Application
 
 	private class Tile extends StackPane
 	{
-		State state = null;
+		private State state = null;
 
 		public Tile()
 		{
@@ -198,31 +197,17 @@ public class TicTacToe extends Application
 		}
 	}
 	
-	private void cleanGame(Stage primaryStage)
-	{
-		primaryStage.close();
-	}
-	
-	private void restartGame(Stage primaryStage)
-	{
-		cleanGame(primaryStage);
-		startGame(primaryStage);
-	}
-	
 	private void startGame(Stage primaryStage)
 	{
+	    restart.setOnAction(__ ->
+	    {
+	      primaryStage.close();
+	      Platform.runLater(() -> new TicTacToe().start(new Stage()));
+	    });
+	    
 		primaryStage.setTitle("Tic Tac Toe");
 		primaryStage.setScene(new Scene(createContent()));
 		primaryStage.show();
-		
-		restart.setOnAction(new EventHandler<ActionEvent>()
-		{
-			@Override
-			public void handle(ActionEvent event)
-			{
-				restartGame(primaryStage);
-			}
-		});
 	}
 	
 	@Override
