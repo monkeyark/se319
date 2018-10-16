@@ -1,7 +1,6 @@
 package hw5;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -28,15 +27,22 @@ import javafx.util.Duration;
 public class TicTacToe extends Application
 {
 	private Tile board[][] = new Tile[3][3];
-	private List<Combo> combos = new ArrayList<>();
+	private ArrayList<Combo> combos = new ArrayList<>();
 
 	enum State
 	{
-		EMPTY, CROSS, NOUGHT
+		X, O;
+		
+		State toggle()
+		{
+	        if (this.equals(X))
+	            return O;
+	        else
+	            return X;
+	    }
 	};
 
-	boolean turn_cross = true;
-	State next;
+	State nextState = State.X;
 	boolean playable = true;
 	
 	private Pane root = new Pane();
@@ -48,7 +54,7 @@ public class TicTacToe extends Application
 
 	private Parent createContent()
 	{
-		root.setPrefSize(800, 600);
+		root.setPrefSize(900, 600);
 
 		for (int y = 0; y < 3; y++)
 		{
@@ -65,14 +71,14 @@ public class TicTacToe extends Application
 
 		for (int i = 0; i < 3; i++)
 		{
-			combos.add(new Combo(board[0][i], board[1][i], board[2][i]));// horizontal
-			combos.add(new Combo(board[i][0], board[i][1], board[i][2]));// vertical
+			combos.add(new Combo(board[0][i], board[1][i], board[2][i]));// vertical
+			combos.add(new Combo(board[i][0], board[i][1], board[i][2]));// horizontal
 		}
 		// diagonals
 		combos.add(new Combo(board[0][0], board[1][1], board[2][2]));
 		combos.add(new Combo(board[2][0], board[1][1], board[0][2]));
 		
-		label = new Label("X Turn");
+		label = new Label(nextState + " Turn");
 		label.setFont(new Font("Arial", 30));
 		label.setLayoutX(650);
 		label.setLayoutY(300);
@@ -87,7 +93,7 @@ public class TicTacToe extends Application
 
 	private class Tile extends StackPane
 	{
-		State state = State.EMPTY;
+		State state = null;
 
 		public Tile()
 		{
@@ -104,20 +110,22 @@ public class TicTacToe extends Application
 				
 				if (event.getButton() == MouseButton.PRIMARY)
 				{
-					if (turn_cross)
+					if (nextState == State.X)
 					{
-						show_x();
-						turn_cross = false;
-						label.setText("O Turn");
-						checkState();
+						show_X();
+						state = State.X;
+						nextState = State.O;
+						label.setText(nextState + " Turn");
+						checkGame();
 						return;
 					}
 					else
 					{
-						show_o();
-						turn_cross = true;
-						label.setText("X Turn");
-						checkState();
+						show_O();
+						state = State.O;
+						nextState = State.X;
+						label.setText(nextState + " Turn");
+						checkGame();
 						return;
 					}
 				}
@@ -129,18 +137,16 @@ public class TicTacToe extends Application
 			return state;
 		}
 
-		private void show_x()
+		private void show_X()
 		{
-			state = State.CROSS;
 			ImageView img = new ImageView(img_x);
 			img.setFitHeight(199);
 			img.setFitWidth(199);
 			getChildren().addAll(img);
 		}
 
-		private void show_o()
+		private void show_O()
 		{
-			state = State.NOUGHT;
 			ImageView img = new ImageView(img_o);
 			img.setFitHeight(199);
 			img.setFitWidth(199);
@@ -167,18 +173,33 @@ public class TicTacToe extends Application
 			this.tiles = tiles;
 		}
 
-		public boolean isComplete()
+		public boolean isComplete()//TODO
 		{
-			if (tiles[0].getState() == State.EMPTY)
+			if (tiles[0].getState() != State.O && tiles[0].getState() != State.X)
 				return false;
 
 			return tiles[0].getState().equals(tiles[1].getState())
 				&& tiles[0].getState().equals(tiles[2].getState());
 		}
 	}
-	
-	private void playWinAnimation(Combo combo)
+	private boolean isDraw()
 	{
+		for (int y = 0; y < 3; y++)
+		{
+			for (int x = 0; x < 3; x++)
+			{
+				if (board[x][y].getState() == null)
+				{
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	private void win(Combo combo)
+	{
+		playable = false;
 		Line line = new Line();
 		line.setStartX(combo.tiles[0].getCenterX());
 		line.setStartY(combo.tiles[0].getCenterY());
@@ -195,19 +216,27 @@ public class TicTacToe extends Application
 			new KeyValue(line.endYProperty(), combo.tiles[2].getCenterY()))
 		);
 		timeline.play();
-		label.setText("Winner is \n" + State.CROSS);
+		label.setText("Congratulations\n" + nextState.toggle() + "\nwin the game\n");
 	}
 	
-	private void checkState()
+	private void checkGame()
 	{
-		for (Combo combo : combos)
+		if (!isDraw())
 		{
-			if (combo.isComplete())
+			for (Combo combo : combos)
 			{
-				playable = false;
-				playWinAnimation(combo);
-				break;
+				if (combo.isComplete())
+				{
+					playable = false;
+					win(combo);
+					return;
+				}
 			}
+		}
+		else
+		{
+			playable = false;
+			label.setText("draw");
 		}
 	}
 	
