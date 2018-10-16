@@ -1,4 +1,9 @@
+package lab6;
+//package application;
+
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,10 +31,17 @@ public class JavaFXExample2 extends Application {
        Label message = new Label();
        hb.getChildren().add(message);
        
-       //TODO 
-       /*
-        * Event Handling
-        */
+       // Event Handling
+       submit.setOnAction(new EventHandler<ActionEvent>() {
+
+		@Override
+		public void handle(ActionEvent event) {
+				String text = name.getText().equals("") ? "You have not entered name."
+						: "Welcome " + name.getText() + "!!";
+				message.setText(text);
+		}
+       });
+       // Event Handling End
        
        Scene scene = new Scene(hb, 500, 100);
        
