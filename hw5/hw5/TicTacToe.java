@@ -1,10 +1,5 @@
 package hw5;
 
-import java.util.ArrayList;
-
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,39 +13,34 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class TicTacToe extends Application
 {
-	private Tile board[][] = new Tile[3][3];
-	private ArrayList<Combo> combos = new ArrayList<>();
-
 	enum State
 	{
 		X, O;
 		
 		State toggle()
 		{
-	        if (this.equals(X))
-	            return O;
-	        else
-	            return X;
-	    }
+			if (this.equals(X))
+				return O;
+			else
+				return X;
+		}
 	};
-
-	State nextState = State.X;
-	boolean playable = true;
 	
-	private Pane root = new Pane();
+	State nextState = State.X;
+	private Tile board[][] = new Tile[3][3];
+	boolean playable = true;
 
-	private String img_o = "o.jpg";
-	private String img_x = "x.jpg";
+	private Pane root = new Pane();
 	Label label = new Label("");
 	Button restart = new Button("New Game");
+	private String img_o = "o.jpg";
+	private String img_x = "x.jpg";
 
 	private Parent createContent()
 	{
@@ -68,15 +58,6 @@ public class TicTacToe extends Application
 				board[x][y] = tile;
 			}
 		}
-
-		for (int i = 0; i < 3; i++)
-		{
-			combos.add(new Combo(board[0][i], board[1][i], board[2][i]));// vertical
-			combos.add(new Combo(board[i][0], board[i][1], board[i][2]));// horizontal
-		}
-		// diagonals
-		combos.add(new Combo(board[0][0], board[1][1], board[2][2]));
-		combos.add(new Combo(board[2][0], board[1][1], board[0][2]));
 		
 		label = new Label(nextState + " Turn");
 		label.setFont(new Font("Arial", 30));
@@ -152,36 +133,42 @@ public class TicTacToe extends Application
 			img.setFitWidth(199);
 			getChildren().addAll(img);
 		}
-		
-		public double getCenterX()
-		{
-			return getTranslateX() + 100;
-		}
-
-		public double getCenterY()
-		{
-			return getTranslateY() + 100;
-		}
 	}
-
-	private class Combo
+	
+	private boolean isWin()
 	{
-		private Tile[] tiles;
-
-		public Combo(Tile... tiles)
+		for (int i = 0; i < 3; i++)
 		{
-			this.tiles = tiles;
+			if (board[0][i].getState() == board[1][i].getState() &&
+				board[0][i].getState() == board[2][i].getState() &&
+				board[0][i].getState() != null)
+			{
+				return true;//vertical
+			}
+			if (board[i][0].getState() == board[i][1].getState() &&
+				board[i][0].getState() == board[i][2].getState() &&
+				board[i][0].getState() != null)
+			{
+				return true;//horizontal
+			}
 		}
-
-		public boolean isComplete()//TODO
+		
+		if (board[0][0].getState() == board[1][1].getState() &&
+			board[0][0].getState() == board[2][2].getState() &&
+			board[0][0].getState() != null)
 		{
-			if (tiles[0].getState() != State.O && tiles[0].getState() != State.X)
-				return false;
-
-			return tiles[0].getState().equals(tiles[1].getState())
-				&& tiles[0].getState().equals(tiles[2].getState());
+			return true;//diagonal
 		}
+		if (board[2][0].getState() == board[1][1].getState() &&
+			board[2][0].getState() == board[0][2].getState() &&
+			board[2][0].getState() != null)
+		{
+			return true;//diagonal
+		}
+		
+		return false;
 	}
+	
 	private boolean isDraw()
 	{
 		for (int y = 0; y < 3; y++)
@@ -197,46 +184,17 @@ public class TicTacToe extends Application
 		return true;
 	}
 	
-	private void win(Combo combo)
-	{
-		playable = false;
-		Line line = new Line();
-		line.setStartX(combo.tiles[0].getCenterX());
-		line.setStartY(combo.tiles[0].getCenterY());
-		line.setEndX(combo.tiles[0].getCenterX());
-		line.setEndY(combo.tiles[0].getCenterY());
-		line.setStrokeWidth(10);
-		root.getChildren().add(line);
-
-		Timeline timeline = new Timeline();
-		timeline.getKeyFrames().add
-		(
-			new KeyFrame(Duration.seconds(1),
-			new KeyValue(line.endXProperty(), combo.tiles[2].getCenterX()),
-			new KeyValue(line.endYProperty(), combo.tiles[2].getCenterY()))
-		);
-		timeline.play();
-		label.setText("Congratulations\n" + nextState.toggle() + "\nwin the game\n");
-	}
-	
 	private void checkGame()
 	{
-		if (!isDraw())
-		{
-			for (Combo combo : combos)
-			{
-				if (combo.isComplete())
-				{
-					playable = false;
-					win(combo);
-					return;
-				}
-			}
-		}
-		else
+		if (isWin())
 		{
 			playable = false;
-			label.setText("draw");
+			label.setText("Congratulations\n" + nextState.toggle() + "\nwin the game\n");
+		}
+		else if (isDraw())
+		{
+			playable = false;
+			label.setText("Draw");
 		}
 	}
 	
