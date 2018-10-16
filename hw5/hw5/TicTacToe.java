@@ -7,7 +7,6 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
@@ -26,8 +25,8 @@ public class TicTacToe extends Application
 	boolean turn_cross = true;
 	boolean playable = true;
 	
-	private Image img_o = new Image("file:hw5/o.jpg");
-	private Image img_x = new Image("file:hw5/x.jpg");
+	private String img_o = "o.jpg";
+	private String img_x = "x.jpg";
 	
 	private Parent createContent()
 	{
@@ -62,7 +61,6 @@ public class TicTacToe extends Application
 	
 	private class Tile extends StackPane
 	{
-		String path = "o.jpg";
 		State state = State.EMPTY;
 		public Tile()
 		{
@@ -71,12 +69,7 @@ public class TicTacToe extends Application
 			border.setStroke(Color.BLACK);
 
 			setAlignment(Pos.CENTER);
-			getChildren().addAll(border);//TODO
-
-			ImageView img = new ImageView(path);
-			img.setFitHeight(200);
-			img.setFitWidth(200);
-			getChildren().addAll(img);
+			getChildren().addAll(border);
 			
 			setOnMouseClicked(event ->
 			{
@@ -109,12 +102,20 @@ public class TicTacToe extends Application
 		private void show_x()
 		{
 			state = State.CROSS;
+			ImageView img = new ImageView(img_x);
+			img.setFitHeight(200);
+			img.setFitWidth(200);
+			getChildren().addAll(img);
 			//text.setText("X");//TODO
 		}
 
 		private void show_o()
 		{
 			state = State.NOUGHT;
+			ImageView img = new ImageView(img_o);
+			img.setFitHeight(200);
+			img.setFitWidth(200);
+			getChildren().addAll(img);
 			//text.setText("O");//TODO
 		}
 	}
