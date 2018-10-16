@@ -7,6 +7,9 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
@@ -31,7 +34,7 @@ public class TicTacToe extends Application
 	private Parent createContent()
 	{
 		Pane root = new Pane();
-		root.setPrefSize(600, 600);
+		root.setPrefSize(800, 600);
 		
 		for (int y = 0; y < 3; y++)
 		{
@@ -55,6 +58,9 @@ public class TicTacToe extends Application
 		//diagonals
 		combos.add(new Combo(board[0][0], board[1][1], board[2][2]));
 		combos.add(new Combo(board[2][0], board[1][1], board[0][2]));
+		
+		Label label = new Label("Name:");
+		Button new_game = new Button("New Game");
 		
 		return root;
 	}
@@ -96,7 +102,7 @@ public class TicTacToe extends Application
 		
 		public State getValue()
 		{
-			return state;//TODO
+			return state;
 		}
 		
 		private void show_x()
@@ -106,7 +112,6 @@ public class TicTacToe extends Application
 			img.setFitHeight(200);
 			img.setFitWidth(200);
 			getChildren().addAll(img);
-			//text.setText("X");//TODO
 		}
 
 		private void show_o()
@@ -116,7 +121,6 @@ public class TicTacToe extends Application
 			img.setFitHeight(200);
 			img.setFitWidth(200);
 			getChildren().addAll(img);
-			//text.setText("O");//TODO
 		}
 	}
 	
@@ -134,7 +138,8 @@ public class TicTacToe extends Application
 			if (tiles[0].getValue() == State.EMPTY)
 				return false;
 
-			return tiles[0].getValue().equals(tiles[1].getValue()) && tiles[0].getValue().equals(tiles[2].getValue());
+			return tiles[0].getValue().equals(tiles[1].getValue())
+				&& tiles[0].getValue().equals(tiles[2].getValue());
 		}
 	}
 	
