@@ -76,7 +76,7 @@ var Snak =
                 Snak.Model.path.fillRect(Snak.Model.row,Snak.Model.col,10,10);
             }
 
-            if (!Snak.Controller.isInside())
+            if (!Snak.Controller.is_inside())
             {
                 clearInterval(Snak.Model.interval);
                 alert("Your are doomed!");
@@ -132,7 +132,7 @@ var Snak =
             }
         },
 
-        isInside: function ()
+        is_inside: function ()
         {
             return Snak.Model.row > 0 &&
             Snak.Model.col > 0 &&
